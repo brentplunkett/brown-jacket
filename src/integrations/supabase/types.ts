@@ -14,7 +14,81 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      hole_scores: {
+        Row: {
+          hole: number
+          id: string
+          player: string
+          round_key: string
+          strokes: number | null
+          updated_at: string
+        }
+        Insert: {
+          hole: number
+          id?: string
+          player: string
+          round_key: string
+          strokes?: number | null
+          updated_at?: string
+        }
+        Update: {
+          hole?: number
+          id?: string
+          player?: string
+          round_key?: string
+          strokes?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      scramble_scores: {
+        Row: {
+          hole: number
+          id: string
+          strokes: number | null
+          team: string
+          updated_at: string
+        }
+        Insert: {
+          hole: number
+          id?: string
+          strokes?: number | null
+          team: string
+          updated_at?: string
+        }
+        Update: {
+          hole?: number
+          id?: string
+          strokes?: number | null
+          team?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      wolf_calls: {
+        Row: {
+          blind: boolean
+          hole: number
+          partner: string | null
+          updated_at: string
+          wolf: string
+        }
+        Insert: {
+          blind?: boolean
+          hole: number
+          partner?: string | null
+          updated_at?: string
+          wolf: string
+        }
+        Update: {
+          blind?: boolean
+          hole?: number
+          partner?: string | null
+          updated_at?: string
+          wolf?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
