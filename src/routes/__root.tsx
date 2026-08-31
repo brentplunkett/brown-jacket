@@ -121,8 +121,38 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <SiteNav />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>
   );
 }
+
+function SiteNav() {
+  const items = [
+    { to: "/", label: "Standings" },
+    { to: "/round/r1", label: "Wolf" },
+    { to: "/round/r2", label: "Scramble" },
+    { to: "/round/r3", label: "Best Ball" },
+    { to: "/round/r4", label: "Singles" },
+  ] as const;
+
+  return (
+    <nav className="sticky top-0 z-40 border-b-2 border-tobacco bg-pine">
+      <div className="mx-auto flex max-w-5xl gap-1 overflow-x-auto px-3 py-2">
+        {items.map((i) => (
+          <Link
+            key={i.to}
+            to={i.to}
+            className="mono shrink-0 rounded-sm px-3 py-1.5 text-xs uppercase tracking-widest text-paper-dim transition-colors hover:bg-pine-light hover:text-paper"
+            activeOptions={{ exact: i.to === "/" }}
+            activeProps={{ className: "bg-pine-light !text-gold" }}
+          >
+            {i.label}
+          </Link>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
