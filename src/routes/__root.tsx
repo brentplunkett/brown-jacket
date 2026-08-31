@@ -77,23 +77,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { name: "author", content: "The Brown Jacket Invitational" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,340;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap",
+      },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
+
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
@@ -119,8 +121,38 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <SiteNav />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>
   );
 }
+
+function SiteNav() {
+  const items = [
+    { to: "/", label: "Standings" },
+    { to: "/round/r1", label: "Wolf" },
+    { to: "/round/r2", label: "Scramble" },
+    { to: "/round/r3", label: "Best Ball" },
+    { to: "/round/r4", label: "Singles" },
+  ] as const;
+
+  return (
+    <nav className="sticky top-0 z-40 border-b-2 border-tobacco bg-pine">
+      <div className="mx-auto flex max-w-5xl gap-1 overflow-x-auto px-3 py-2">
+        {items.map((i) => (
+          <Link
+            key={i.to}
+            to={i.to}
+            className="mono shrink-0 rounded-sm px-3 py-1.5 text-xs uppercase tracking-widest text-paper-dim transition-colors hover:bg-pine-light hover:text-paper"
+            activeOptions={{ exact: i.to === "/" }}
+            activeProps={{ className: "bg-pine-light !text-gold" }}
+          >
+            {i.label}
+          </Link>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
