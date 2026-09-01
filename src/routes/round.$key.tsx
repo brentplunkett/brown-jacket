@@ -432,8 +432,8 @@ function BestBallResult({ t }: { t: T }) {
       <ul className="space-y-1">
         {bb.sessions.map((s, i) => (
           <li key={s.label} className="mono">
-            {s.label} · {BEST_BALL_SESSIONS[i].teamA.join("/")} vs{" "}
-            {BEST_BALL_SESSIONS[i].teamB.join("/")} — <span className="text-pine">{s.status}</span>
+            {s.label} · {BEST_BALL_SESSIONS[i]!.teamA.join("/")} vs{" "}
+            {BEST_BALL_SESSIONS[i]!.teamB.join("/")} — <span className="text-pine">{s.status}</span>
             {s.decided ? " (final)" : ` (${s.holesPlayed}/6)`}
           </li>
         ))}

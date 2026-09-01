@@ -130,11 +130,11 @@ function RootComponent() {
 
 function SiteNav() {
   const items = [
-    { to: "/", label: "Standings" },
-    { to: "/round/r1", label: "Wolf" },
-    { to: "/round/r2", label: "Scramble" },
-    { to: "/round/r3", label: "Best Ball" },
-    { to: "/round/r4", label: "Singles" },
+    { to: "/", label: "Standings", params: {} },
+    { to: "/round/$key", label: "Wolf", params: { key: "r1" } },
+    { to: "/round/$key", label: "Scramble", params: { key: "r2" } },
+    { to: "/round/$key", label: "Best Ball", params: { key: "r3" } },
+    { to: "/round/$key", label: "Singles", params: { key: "r4" } },
   ] as const;
 
   return (
@@ -142,8 +142,9 @@ function SiteNav() {
       <div className="mx-auto flex max-w-5xl gap-1 overflow-x-auto px-3 py-2">
         {items.map((i) => (
           <Link
-            key={i.to}
+            key={i.label}
             to={i.to}
+            params={i.params}
             className="mono shrink-0 rounded-sm px-3 py-1.5 text-xs uppercase tracking-widest text-paper-dim transition-colors hover:bg-pine-light hover:text-paper"
             activeOptions={{ exact: i.to === "/" }}
             activeProps={{ className: "bg-pine-light !text-gold" }}
