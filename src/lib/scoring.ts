@@ -85,11 +85,12 @@ function rankPoints(values: Record<PlayerName, number>, ladder: number[]) {
   let i = 0;
   while (i < sorted.length) {
     let j = i;
-    while (j + 1 < sorted.length && values[sorted[j + 1]] === values[sorted[i]]) j++;
+    while (j + 1 < sorted.length && values[sorted[j + 1]!] === values[sorted[i]!]) j++;
     const share = ladder.slice(i, j + 1).reduce((a, b) => a + b, 0) / (j - i + 1);
-    for (let k = i; k <= j; k++) out[sorted[k]] = share;
+    for (let k = i; k <= j; k++) out[sorted[k]!] = share;
     i = j + 1;
   }
+
   return out;
 }
 
@@ -99,25 +100,31 @@ export function computeScramble(scramble: ScrambleMap) {
   const totals: Record<string, number> = {};
   const holesIn: Record<string, number> = {};
   SCRAMBLE_TEAMS.forEach((t) => {
-    totals[t.key] = 0;
-    holesIn[t.key] = 0;
+    let sum = 0;
+    let count = 0;
     for (let h = 1; h <= 18; h++) {
       const v = scramble[`${h}:${t.key}`];
       if (typeof v === "number") {
-        totals[t.key] += v;
-        holesIn[t.key] += 1;
+        sum += v;
+        count += 1;
       }
     }
+    totals[t.key] = sum;
+    holesIn[t.key] = count;
   });
 
   const points = zero();
   const complete = SCRAMBLE_TEAMS.every((t) => holesIn[t.key] === 18);
   if (complete) {
-    const [a, b] = SCRAMBLE_TEAMS;
-    if (totals[a.key] < totals[b.key]) a.players.forEach((p) => (points[p] = 3));
-    else if (totals[b.key] < totals[a.key]) b.players.forEach((p) => (points[p] = 3));
+    const a = SCRAMBLE_TEAMS[0]!;
+    const b = SCRAMBLE_TEAMS[1]!;
+    const ta = totals[a.key]!;
+    const tb = totals[b.key]!;
+    if (ta < tb) a.players.forEach((p) => (points[p] = 3));
+    else if (tb < ta) b.players.forEach((p) => (points[p] = 3));
     else PLAYERS.forEach((p) => (points[p] = 1.5));
   }
+
   return { totals, holesIn, complete, jacketPoints: points };
 }
 
