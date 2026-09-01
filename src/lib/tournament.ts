@@ -114,7 +114,7 @@ export const ROUND_BY_KEY = Object.fromEntries(ROUNDS.map((r) => [r.key, r])) as
 >;
 
 export const WOLF_ORDER: PlayerName[] = ["Terb", "Ross", "Brent", "Ryan"];
-export const wolfForHole = (hole: number): PlayerName => WOLF_ORDER[(hole - 1) % 4];
+export const wolfForHole = (hole: number): PlayerName => WOLF_ORDER[(hole - 1) % 4]!;
 
 export const SCRAMBLE_TEAMS: { key: string; label: string; players: PlayerName[] }[] = [
   { key: "A", label: "Brent / Ross", players: ["Brent", "Ross"] },
@@ -168,7 +168,7 @@ export const SINGLES_SESSIONS: {
 /** Strokes a player receives on a given hole. */
 export function strokesOnHole(player: PlayerName, course: CourseName, hole: number): number {
   const ch = PLAYER_INFO[player].ch[course];
-  const si = COURSES[course].si[hole - 1];
+  const si = COURSES[course].si[hole - 1]!;
   let s = 0;
   if (si <= ch) s += 1;
   if (si + 18 <= ch) s += 1;
