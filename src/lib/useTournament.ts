@@ -119,7 +119,7 @@ export function useTournament() {
 }
 
 export function useSession() {
-  const [session, setSession] = useState<{ email?: string } | null>(null);
+  const [session, setSession] = useState<{ email?: string | undefined } | null>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {

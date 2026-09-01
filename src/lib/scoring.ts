@@ -294,7 +294,7 @@ export function computeStandings(
 
   let place = 1;
   sorted.forEach((row, i) => {
-    if (i > 0 && sorted[i - 1].total !== row.total) place = i + 1;
+    if (i > 0 && sorted[i - 1]!.total !== row.total) place = i + 1;
     row.place = place;
     row.tied = sorted.some((o) => o !== row && o.total === row.total);
   });
@@ -316,7 +316,7 @@ export function tiebreakStats(scores: ScoreMap) {
         const n = getNet(scores, rk, hole, p);
         if (n == null) continue;
         net += n;
-        const par = COURSES[course].par[hole - 1];
+        const par = COURSES[course].par[hole - 1]!;
         if (n < par) birdies++;
         else if (n === par) pars++;
       }
